@@ -1,27 +1,25 @@
 import sys
 import unittest
+sys.path.append("../filework/")
+import filework as fw
 
-class InitializationTests(unittest.TestCase):
 
-	def test_initialization(self):
-		self.project-name = "filework"
-		"""
-		Check the test suite runs by affirming 2+2=4
-		"""
-		self.assertEqual(2+2, 4)
+class InstantiationTest(unittest.TestCase):
 
-	def test_import(self):
-		"""
-		Ensure the test suite can import the module
-		"""
-		try:
-			sys.path.append("../filework/filework.py")
-			import project-name
-		except ImportError:
-			self.fail("Was not able to import ", project-name)
+	def setUp(self):
+		self.fwk = fw.FileWork("test.db")
+
+
+	def testMemberResult(self):
+		self.assertEqual(self.fwk.result, "NONE")
+			
+
+	def testMemberStatus(self):
+		self.assertEqual(self.fwk.status, "NONE")
+
 	
-		
+	def tearDown(self):
+		self.fwk.__del__()
+
 if __name__ == '__main__':
 	unittest.main()
-
-

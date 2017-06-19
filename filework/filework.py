@@ -10,7 +10,7 @@
 """
 
 import os
-
+import time
 
 class FileWork(object):
 	"""
@@ -29,7 +29,8 @@ class FileWork(object):
 		self._file_path = file_path		# This member is private because this class uses a property to get and set it.
 		self.action = ""
 		self.new_path = False
-
+		self.iter_start = 0
+		self.iter_stop = 0
 
 	def __del__(self):
 		"""
@@ -77,6 +78,7 @@ class FileWork(object):
 		"""
 		if self.fd:
 			self.fd.close()
+			self.is_file_open = False
 			self.fd = None
 
 
@@ -116,7 +118,8 @@ class FileWork(object):
 
 	def iterate_through_file(self, move):
 		"""
-		Read a file by iterating or stepping through it one line at a time.
+		Read a file by iterating or stepping through it one line at a time.  This method essentially does the same thing as calling
+		next(filework_object.fd) but outputs helpful messages (see Returns below) and handles exceptions for the calling code.
 
 		Args:
 		
@@ -129,66 +132,72 @@ class FileWork(object):
 							
 		"""
 	
-		ret = ""
 		if self.new_path or self.action != "r":
 			self._set_action("r")
 			
+
+		contents = "ERR"
+
 		if self.is_file_open:
 			if move == "n":
 				try:
-					ret = next(self.fd)
-				except StopIteration:
-					ret = "EOF"
-					self.fd.close()
-					self._set_result_and_status("OK", "")
+					self.fd.seek(self.iter_start)		# use self.fd.seek(self.start_iter) - starts location of fd at zero
+					contents = self.fd.readline()		# call readline(), assign to be returned
+					self.iter_start = self.fd.tell()	# use f.tell() to get the current position of self.fd, assign this to self.start_iter
+					if len(contents) == 0:				# readline() returns an empty string at the end of the file
+						contents = "EOF"
+						self.fd.close()
+						self.iter_start = 0
+						self._set_result_and_status("OK", "")
 				except Exception as e:
-					ret = "ERR"
-					self._set_result_and_status("FAIL", "In FileWork, iterate_through_file(): " + str(e))
+					contents = "ERR"
 					self.fd.close()
+					self.iter_start = 0
+					self._set_result_and_status("FAIL", "In FileWork, iterate_through_file(): " + str(e))
 
 			elif move == "s":
 				self._set_result_and_status("OK", "")
-				self.fd.close()
+				self.close_file()
 				
-				
-		return ret
+			
+		return contents
 
 	def read_from_file(self):
 		"""
-		Read and return the entire contents of the file of this object.
+		Read and return the entire contents of the file of this object.  
 
 		Args:
-				none	
+				none
 
 		Returns:
-					(?) The entire contents of a file.
+					(string) The entire contents of a file, or "ERR" if there was a problem.
 							
 		"""
-	
 
-		ret = ""
 
 		if self.new_path or self.action != "r":
 			self._set_action("r")
 
+		content = "ERR"
+		
+		if self.is_file_open:
+			try:
+				content = self.fd.read()
+				self._set_result_and_status("OK", "")
+			except Exception as e:
+				content = "ERR"
+				self._set_result_and_status("FAIL", "In FileWork, read_from_file(): ", str(e))
 
-		try:
-			ret = self.fd.read()
-			self._set_result_and_status("OK", "")
-		except Exception as e:
-			self._set_result_and_status("FAIL", "In FileWork, read_from_file(): ", str(e))
 
-		return ret
+		return content
 
 
 	def _set_action(self, new_action):
 
 		self.new_path = False
-
+		
 		path = self.file_path
-		if self.fd is not None:
-			self.fd.close()
-
+	
 		self.action = new_action
 		self.file_path = path
 
@@ -233,6 +242,8 @@ class FileWork(object):
 			except Exception as e:
 				msg = "In Filework " + f_name + "(): " + str(e)
 				self._set_result_and_status("FAIL", msg)
+			finally:
+				self.close_file()
 
 
 	def _set_result_and_status(self, result, status):

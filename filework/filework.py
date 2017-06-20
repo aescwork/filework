@@ -10,7 +10,6 @@
 """
 
 import os
-import time
 
 class FileWork(object):
 	"""
@@ -30,7 +29,6 @@ class FileWork(object):
 		self.action = ""
 		self.new_path = False
 		self.iter_start = 0
-		self.iter_stop = 0
 
 	def __del__(self):
 		"""
@@ -80,6 +78,25 @@ class FileWork(object):
 			self.fd.close()
 			self.is_file_open = False
 			self.fd = None
+
+
+	def delete_file(self):
+		"""
+		Delete the file whose path is assigned to the _file_path member.
+
+		Args:
+				none
+
+		Returns:
+				none
+		"""
+		
+		try:
+			self.close_file()
+			os.remove(self._file_path)
+			self._set_result_and_status("OK", "") 
+		except Exception as e:
+			self._set_result_and_status("FAIL", "In FileWork, delete_file: ", str(e)) 
 
 
 	def write_to_file(self, content):
@@ -146,12 +163,11 @@ class FileWork(object):
 					self.iter_start = self.fd.tell()	# use f.tell() to get the current position of self.fd, assign this to self.start_iter
 					if len(contents) == 0:				# readline() returns an empty string at the end of the file
 						contents = "EOF"
-						self.fd.close()
+						self.close_file()
 						self.iter_start = 0
 						self._set_result_and_status("OK", "")
 				except Exception as e:
-					contents = "ERR"
-					self.fd.close()
+					self.close_file()
 					self.iter_start = 0
 					self._set_result_and_status("FAIL", "In FileWork, iterate_through_file(): " + str(e))
 
@@ -161,6 +177,7 @@ class FileWork(object):
 				
 			
 		return contents
+
 
 	def read_from_file(self):
 		"""

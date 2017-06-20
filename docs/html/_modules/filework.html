@@ -1,0 +1,368 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>filework &mdash; filework  documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="filework  documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">filework  documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for filework</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">..	currentmodule:: filework</span>
+<span class="sd">	:platform: Linux, Unix, Windows</span>
+<span class="sd">	:synopsis: A simple wrapper class for easy reading (iterating) from, writing, and appending to files.</span>
+
+<span class="sd">.. moduleauthor:: Vollund Leysing aescwork@protonmail.com</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<div class="viewcode-block" id="FileWork"><a class="viewcode-back" href="../filework.html#filework.FileWork">[docs]</a><span class="k">class</span> <span class="nc">FileWork</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+	
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Args:</span>
+<span class="sd">			file_path: The name and optionally the path to the file.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;NONE&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;NONE&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">fd</span> <span class="o">=</span> <span class="bp">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_file_path</span> <span class="o">=</span> <span class="n">file_path</span>		<span class="c1"># This member is private because this class uses a property to get and set it.</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">new_path</span> <span class="o">=</span> <span class="bp">False</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">iter_start</span> <span class="o">=</span> <span class="mi">0</span>
+
+	<span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Make sure to close any open file descriptor when object is deleted.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">close_file</span><span class="p">()</span>
+
+
+	<span class="nd">@property</span>
+	<span class="k">def</span> <span class="nf">file_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the file path.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file_path</span>
+
+
+	<span class="nd">@file_path.setter</span>
+	<span class="k">def</span> <span class="nf">file_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		This method is for assigning a value to self._file_path.  The self._file_path attribute can be accessed directly</span>
+<span class="sd">		but the @property is used to call setter method.</span>
+
+<span class="sd">		When a new value is assigned to _file_path, close_file() is called on the fd (the file descriptor) if a file was</span>
+<span class="sd">		actually assigned to it.  Next, new_path is is set to True, meaning that the object is working with a new file.</span>
+<span class="sd">		This will make sure that the methods which do the actual work with the files open the new file properly -- either to</span>
+<span class="sd">		&#39;a&#39; (append), &#39;w&#39; (write) or &#39;r&#39; (read) the file.  </span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			val (str):	the path to the file for the object.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		
+		<span class="k">try</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_file_path</span> <span class="o">=</span> <span class="n">val</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">close_file</span><span class="p">()</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">new_path</span> <span class="o">=</span> <span class="bp">True</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;OK&quot;</span><span class="p">,</span> <span class="s2">&quot;set new file_path&quot;</span><span class="p">)</span>
+		<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;FAIL&quot;</span><span class="p">,</span> <span class="s2">&quot;In FileWork, file_path setter: &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+			
+
+<div class="viewcode-block" id="FileWork.close_file"><a class="viewcode-back" href="../filework.html#filework.FileWork.close_file">[docs]</a>	<span class="k">def</span> <span class="nf">close_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Close the file if there is a file descriptor.  This method is called automatically by @file_path.setter </span>
+<span class="sd">		if the value of self._file_path is changed.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fd</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">fd</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">is_file_open</span> <span class="o">=</span> <span class="bp">False</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">fd</span> <span class="o">=</span> <span class="bp">None</span></div>
+
+
+<div class="viewcode-block" id="FileWork.delete_file"><a class="viewcode-back" href="../filework.html#filework.FileWork.delete_file">[docs]</a>	<span class="k">def</span> <span class="nf">delete_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Delete the file whose path is assigned to the _file_path member.</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">				none</span>
+
+<span class="sd">		Returns:</span>
+<span class="sd">				none</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		
+		<span class="k">try</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">close_file</span><span class="p">()</span>
+			<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file_path</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;OK&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> 
+		<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;FAIL&quot;</span><span class="p">,</span> <span class="s2">&quot;In FileWork, delete_file: &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> </div>
+
+
+<div class="viewcode-block" id="FileWork.write_to_file"><a class="viewcode-back" href="../filework.html#filework.FileWork.write_to_file">[docs]</a>	<span class="k">def</span> <span class="nf">write_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		This method will write all of &#39;content&#39; to the file.  The file is opened with the &quot;w&quot; mode: therefore if the file does not exist</span>
+<span class="sd">		it will attempt to create it.  If the file exists already anything in the file will be deleted.  If content is None and the file does</span>
+<span class="sd">		not exist, the only action will be that the file is created.</span>
+<span class="sd">		</span>
+<span class="sd">		Calls self._to_file to do the actual work.</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			content (str), (list), (NoneType):	</span>
+<span class="sd">											The matter to be written to the file or a value of None which will only result in the file being</span>
+<span class="sd">											created if it does not exist.</span>
+
+<span class="sd">		</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">_to_file</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;write_to_file&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="FileWork.append_to_file"><a class="viewcode-back" href="../filework.html#filework.FileWork.append_to_file">[docs]</a>	<span class="k">def</span> <span class="nf">append_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Append to a file. </span>
+
+<span class="sd">		Calls self._to_file to do the actual work.</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">				content (str), (list):	the matter to append to the file.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">_to_file</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;append_to_file&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="FileWork.iterate_through_file"><a class="viewcode-back" href="../filework.html#filework.FileWork.iterate_through_file">[docs]</a>	<span class="k">def</span> <span class="nf">iterate_through_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">move</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read a file by iterating or stepping through it one line at a time.  This method essentially does the same thing as calling</span>
+<span class="sd">		next(filework_object.fd) but outputs helpful messages (see Returns below) and handles exceptions for the calling code.</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">		</span>
+<span class="sd">			move (str):		what action to take with this method call: values are &quot;n&quot; for go to the next line, or &quot;s&quot; to stop iterating</span>
+<span class="sd">							through the file, close the file descriptor, etc.</span>
+
+<span class="sd">		Returns:</span>
+<span class="sd">					(str) The current line of the file which has just been read, &quot;EOF&quot; which means the end of the file has been reached,</span>
+<span class="sd">							or &quot;ERR&quot; which means something else went wrong..</span>
+<span class="sd">							</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+	
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_path</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">!=</span> <span class="s2">&quot;r&quot;</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_set_action</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+			
+
+		<span class="n">contents</span> <span class="o">=</span> <span class="s2">&quot;ERR&quot;</span>
+
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_file_open</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">move</span> <span class="o">==</span> <span class="s2">&quot;n&quot;</span><span class="p">:</span>
+				<span class="k">try</span><span class="p">:</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">fd</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iter_start</span><span class="p">)</span>		<span class="c1"># use self.fd.seek(self.start_iter) - starts location of fd at zero</span>
+					<span class="n">contents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fd</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>		<span class="c1"># call readline(), assign to be returned</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">iter_start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fd</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>	<span class="c1"># use f.tell() to get the current position of self.fd, assign this to self.start_iter</span>
+					<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>				<span class="c1"># readline() returns an empty string at the end of the file</span>
+						<span class="n">contents</span> <span class="o">=</span> <span class="s2">&quot;EOF&quot;</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">close_file</span><span class="p">()</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">iter_start</span> <span class="o">=</span> <span class="mi">0</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;OK&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+				<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">close_file</span><span class="p">()</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">iter_start</span> <span class="o">=</span> <span class="mi">0</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;FAIL&quot;</span><span class="p">,</span> <span class="s2">&quot;In FileWork, iterate_through_file(): &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+			<span class="k">elif</span> <span class="n">move</span> <span class="o">==</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;OK&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">close_file</span><span class="p">()</span>
+				
+			
+		<span class="k">return</span> <span class="n">contents</span></div>
+
+
+<div class="viewcode-block" id="FileWork.read_from_file"><a class="viewcode-back" href="../filework.html#filework.FileWork.read_from_file">[docs]</a>	<span class="k">def</span> <span class="nf">read_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Read and return the entire contents of the file of this object.  </span>
+
+<span class="sd">		Args:</span>
+<span class="sd">				none</span>
+
+<span class="sd">		Returns:</span>
+<span class="sd">					(string) The entire contents of a file, or &quot;ERR&quot; if there was a problem.</span>
+<span class="sd">							</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_path</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">!=</span> <span class="s2">&quot;r&quot;</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_set_action</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+
+		<span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;ERR&quot;</span>
+		
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_file_open</span><span class="p">:</span>
+			<span class="k">try</span><span class="p">:</span>
+				<span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fd</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;OK&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+			<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+				<span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;ERR&quot;</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;FAIL&quot;</span><span class="p">,</span> <span class="s2">&quot;In FileWork, read_from_file(): &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+
+		<span class="k">return</span> <span class="n">content</span></div>
+
+
+	<span class="k">def</span> <span class="nf">_set_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_action</span><span class="p">):</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">new_path</span> <span class="o">=</span> <span class="bp">False</span>
+		
+		<span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span>
+	
+		<span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="n">new_action</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">file_path</span> <span class="o">=</span> <span class="n">path</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file_open</span><span class="p">()</span>
+
+
+
+	<span class="k">def</span> <span class="nf">_file_open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Private method for the object to open the file in the correct way for the operation to be performed.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">is_file_open</span> <span class="o">=</span> <span class="bp">True</span>
+		<span class="k">try</span><span class="p">:</span>			
+			<span class="bp">self</span><span class="o">.</span><span class="n">fd</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;OK&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+		<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;FAIL&quot;</span><span class="p">,</span> <span class="s2">&quot;in FileWork _file_open: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">is_file_open</span> <span class="o">=</span> <span class="bp">False</span>
+				
+
+	<span class="k">def</span> <span class="nf">_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">f_name</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Private method for either writing or appending content to a file.</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">				action (str):	&quot;w&quot;, &quot;a&quot;, &quot;r&quot; (The mode in which the file is to be opened).</span>
+<span class="sd">				f_name (str):	The name of the &quot;public facing&quot; function which calls this method (for the message in teh status member).</span>
+<span class="sd">				content (str), (list) (NoneType):	the matter to append to the file.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_path</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">!=</span> <span class="n">action</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_set_action</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> 
+
+		<span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">content</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+			<span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
+		<span class="k">if</span> <span class="n">content</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_file_open</span><span class="p">:</span>
+			<span class="k">try</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">fd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;OK&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+			<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+				<span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;In Filework &quot;</span> <span class="o">+</span> <span class="n">f_name</span> <span class="o">+</span> <span class="s2">&quot;(): &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;FAIL&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+			<span class="k">finally</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">close_file</span><span class="p">()</span>
+
+
+	<span class="k">def</span> <span class="nf">_set_result_and_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set self.result and self.status here to help DRY out the code in the above methods.</span>
+<span class="sd">		</span>
+<span class="sd">		Args:</span>
+<span class="sd">			result (string):	the result of the operation performed by the calling method.</span>
+<span class="sd">			status (string):	the status (description) of the outcome of the operation performed by the calling method.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">result</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">status</span></div>
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">filework  documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, Vollund Leysing.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

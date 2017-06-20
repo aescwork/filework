@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>filework package &mdash; filework  documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="filework  documentation" href="index.html" />
+    <link rel="prev" title="Welcome to filework’s documentation!" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to filework’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">filework  documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="filework-package">
+<h1>filework package<a class="headerlink" href="#filework-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="filework-filework-module">
+<h2>filework.filework module<a class="headerlink" href="#filework-filework-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-filework">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-filework" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="filework.FileWork">
+<em class="property">class </em><code class="descclassname">filework.</code><code class="descname">FileWork</code><span class="sig-paren">(</span><em>file_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filework.html#FileWork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filework.FileWork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="filework.FileWork.append_to_file">
+<code class="descname">append_to_file</code><span class="sig-paren">(</span><em>content</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filework.html#FileWork.append_to_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filework.FileWork.append_to_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append to a file.</p>
+<p>Calls self._to_file to do the actual work.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>content (str), (list):  the matter to append to the file.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="filework.FileWork.close_file">
+<code class="descname">close_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/filework.html#FileWork.close_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filework.FileWork.close_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the file if there is a file descriptor.  This method is called automatically by &#64;file_path.setter 
+if the value of self._file_path is changed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="filework.FileWork.delete_file">
+<code class="descname">delete_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/filework.html#FileWork.delete_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filework.FileWork.delete_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the file whose path is assigned to the _file_path member.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>none</dd>
+<dt>Returns:</dt>
+<dd>none</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="filework.FileWork.file_path">
+<code class="descname">file_path</code><a class="headerlink" href="#filework.FileWork.file_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the file path.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="filework.FileWork.iterate_through_file">
+<code class="descname">iterate_through_file</code><span class="sig-paren">(</span><em>move</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filework.html#FileWork.iterate_through_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filework.FileWork.iterate_through_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a file by iterating or stepping through it one line at a time.  This method essentially does the same thing as calling
+next(filework_object.fd) but outputs helpful messages (see Returns below) and handles exceptions for the calling code.</p>
+<p>Args:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>move (str):             what action to take with this method call: values are &#8220;n&#8221; for go to the next line, or &#8220;s&#8221; to stop iterating</dt>
+<dd>through the file, close the file descriptor, etc.</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd><dl class="first last docutils">
+<dt>(str) The current line of the file which has just been read, &#8220;EOF&#8221; which means the end of the file has been reached,</dt>
+<dd>or &#8220;ERR&#8221; which means something else went wrong..</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="filework.FileWork.read_from_file">
+<code class="descname">read_from_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/filework.html#FileWork.read_from_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filework.FileWork.read_from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read and return the entire contents of the file of this object.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>none</dd>
+<dt>Returns:</dt>
+<dd>(string) The entire contents of a file, or &#8220;ERR&#8221; if there was a problem.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="filework.FileWork.write_to_file">
+<code class="descname">write_to_file</code><span class="sig-paren">(</span><em>content</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filework.html#FileWork.write_to_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filework.FileWork.write_to_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method will write all of &#8216;content&#8217; to the file.  The file is opened with the &#8220;w&#8221; mode: therefore if the file does not exist
+it will attempt to create it.  If the file exists already anything in the file will be deleted.  If content is None and the file does
+not exist, the only action will be that the file is created.</p>
+<p>Calls self._to_file to do the actual work.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>content (str), (list), (NoneType):      </dt>
+<dd>The matter to be written to the file or a value of None which will only result in the file being
+created if it does not exist.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">filework package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#filework-filework-module">filework.filework module</a></li>
+<li><a class="reference internal" href="#module-filework">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to filework&#8217;s documentation!</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/filework.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to filework’s documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">filework  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, Vollund Leysing.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

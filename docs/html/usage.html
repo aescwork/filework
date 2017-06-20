@@ -1,0 +1,290 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>filework: Usage  </title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="filework  documentation" href="#" />
+    <link rel="next" title="filework package" href="filework.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="filework.html" title="filework package"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">filework  documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-filework-s-documentation">
+<h1>filework: Usage<a class="headerlink" href="#welcome-to-filework-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p></p>
+<div class="toctree-wrapper compound">
+</li>
+</ul>
+
+	<ul style="margin-left: -2%">
+		<li><p>Instantiate an Object:</p>
+			<dl>
+				<dd style="margin-left: 10%">
+					<code class="descname">fw = Filework</code><span class="sig-paren">(</span><em>"path/to/edda_file.txt"</em><span class="sig-paren">)</span>
+				</dd>
+				<dt style="margin-left: 30%"><span class="italic">... or ...</span></dt>
+				<dd style="margin-left: 10%">
+					<code class="descname">fw = Filework</code><span class="sig-paren">(</span><em></em><span class="sig-paren">)</span>
+				</dd>
+			</dl>
+		</li>
+		<br/>
+		<li>Set or re-set the path to the file:
+			<dl> 
+				<dd style="margin-left: 10%">
+					<code class="descname"></code>
+				</dd>
+				<dd style="margin-left: 10%">
+					<code class="descname">fw.file_path = "path/to/edda_file.txt"</code>
+				</dd>
+		</li>
+		<br/>
+		<li><p>Write To a File:</p>
+			<dl><span style="font-style: italic">Pass in either a string ...</span></dl>
+			<dl>
+				<dd style="margin-left: 10%">
+					<code class="descname">fw.write_to_file</code> <span class="sig-paren">(</span>
+						<em>"The tenth is Glitnir;\nits pillars are gold\nAnd its roof with silver is set;"</em><span class="sig-paren">)
+				</dd>
+			</dl>
+			<dl><span style="font-style: italic"> or a list.<span></dl>
+				<dd style="margin-left: 10%">
+					<code class="descname">fw.write_to_file</code><span class="sig-paren">(</span>
+						<em>["The tenth is Glitnir;", "its pillars are gold", "And its roof with silver is set;"]</code></em>
+					<span class="sig-paren">)
+				</dd>
+			</dl>
+			</dl>
+		</li>
+		<br/>
+		<li><p>Append To A File:</p>
+			<dl><span style="font-style: italic">Pass in either a string ...</span></dl>
+			<dl> 
+				<dd style="margin-left: 10%">
+					<code class="descname">fw.append_to_file</code><span class="sig-paren">(</span>
+						<em>"The tenth is Glitnir;\nits pillars are gold\nAnd its roof with silver is set;"</em><span class="sig-paren">)
+					<span class="sig-paren">)
+				</dd>
+			</dl>
+			<dl><span style="font-style: italic"> or a list.<span></dl>
+			<dl>
+				<dd style="margin-left: 10%">
+					<code class="descname">fw.append_to_file</code><span class="sig-paren">(</span>
+						<em>["The tenth is Glitnir;", "its pillars are gold", "And its roof with silver is set;"]</code></em>
+					<span class="sig-paren">)
+				</dd>
+			</dl>
+		</li>
+		<br/>
+		<li><p>Iterate Through a File:</p>
+			<dl><span style="font-style: italic">Assume the arguments passed in in the methods above have been written to a file.  
+				Each call of this method will produce one line of the file at a time.<span></dl>
+			<dl> 
+				
+				<dd style="margin-left: 10%">
+					<code class="descname">fw.file_path = "path/to/edda_file.txt"</code>
+				</dd>
+				<dd style="margin-left: 10%">
+					<code class="descname">content = fw.iterate_through_file</code><span class="sig-paren">(</span><em>"n"</em><span class="sig-paren">)
+						<span style="font-size: .7em; margin-left: 1%; font-style: italic"># call the method ...</span>
+				</dd>
+				<dd style="margin-left: 10%">
+					<code class="descname">print content</code>	<span style="margin-left: 1%; font-style: italic">#prints "The Tenth is Glitnir;"</span>
+				</dd>
+				<dd style="margin-left: 10%">
+					<code class="descname">content = fw.iterate_through_file</code><span class="sig-paren">(</span><em>"n"</em><span class="sig-paren">)
+						<span style="font-size:.7em; margin-left: 1%; font-style: italic"># ... call the method again</span>
+				</dd>
+				<dd style="margin-left: 10%">
+					<code class="descname">print content</code>	<span style="margin-left: 1%; font-style: italic">#prints "its pillars are gold" </span>
+				</dd>
+				<dd style="margin-left: 10%">
+					<code class="descname">content = fw.iterate_through_file</code><span class="sig-paren">(</span><em>"n"</em><span class="sig-paren">)
+						<span style="font-size:.7em; margin-left: 1%; font-style: italic"># ... and again</span>
+				</dd>
+				<dd style="margin-left: 10%">
+					<code class="descname">print content</code>	<span style="margin-left: 1%; font-style: italic">#prints "And its roof with silver is set;" </span>
+				</dd>
+				<dd style="margin-left: 10%">
+					<code class="descname">content = fw.iterate_through_file</code><span class="sig-paren">(</span><em>"n"</em><span class="sig-paren">)
+						<span style="font-size:.7em; margin-left: 1%; font-style: italic"># ... and again</span>
+				</dd>
+				<dd style="margin-left: 10%">
+					<code class="descname">print content</code>	<span style="font-size:.7em; margin-left: 1%; font-style: italic">
+						# ...reached the end of the file, so prints "EOF"</span>
+				</dd>
+			</dl>
+		</li>
+		<br/>
+		<li><p>Read From File:</p>
+			<dl> 
+				<dd style="margin-left: 10%">
+					<code class="descname">content = fw.read_from_file</code><span class="sig-paren">(</span><em></em><span class="sig-paren">)
+				</dd>
+				<dd style="margin-left: 10%">
+					<code class="descname">print content</code>	
+					<span style="margin-left: 1%; font-style: italic">
+						# prints "The Tenth is Glitnir;\nits pillars are gold\nAnd its roof with silver is set;"</span>
+				</dd>
+			</dl>
+		</li>
+		<br/>
+		<li><p>Delete A File:</p>
+			<dl><span style="font-style: italic">Assume that the file_path has been set as shown above.  This method deletes the
+			file that is pointed-to by file_path.<span></dl>
+				<dd style="margin-left: 10%">
+					<code class="descname">fw.delete_file</code><span class="sig-paren">(</span><em></em><span class="sig-paren">)
+				</dd>
+		</li>
+		<br/>
+		<li><p>Get the results of the Method Call using the result and status members:</p>
+			<dl><span style="font-style: italic">Did the method call succeed or fail?  Check the result: </span></dl>
+			<dl>
+				<dd style="margin-left: 10%">
+					<code class="descname">fw.result</code>
+				</dd>
+				<dd style="margin-left: 10%">
+					<code class="descname">print fw.result</code>	
+						<span style="font-size: .7em; margin-left: 1%; font-style: italic"># fw.result will either be 'OK' if successful or 'FAIL' if not.</span>
+				</dd>
+			</dl>
+			<dl><span style="font-style: italic"> ... if fw.result is 'FAIL', any error message from a caught exception will be in fw.status:</span></dl>
+				<dd style="margin-left: 10%">
+					<code class="descname">fw.status</code>
+				</dd>
+				<dd style="margin-left: 10%">
+					<code class="descname">print fw.status</code>	
+						<span style="font-size: .7em; margin-left: 1%; font-style: italic"># if 'FAIL', fw.status will contain a message about what happened.</span>
+				</dd>
+			</dl>
+		</li>
+		<br/>
+	</ul>
+
+
+<a class="reference internal" href="index.html"><span>(Back to Main)</span></a></li>
+	<br/>
+	<br/>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">filework: Usage</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="filework.html"
+                        title="next chapter">filework package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="filework.html" title="filework package"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">filework  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, Vollund Leysing.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>
+<!--11 
+		<li>
+			<dl> 
+				<code class="descname"></code><span class="sig-paren">(</span><em>content</em><span class="sig-paren">)
+				<dd style="margin-left: 10%">
+					<code class="descname"></code><span class="sig-paren">(</span><em>content</em><span class="sig-paren">)
+				</dd>
+				<dd style="margin-left: 10%">
+					<code class="descname"></code><span class="sig-paren">(</span><em>content</em><span class="sig-paren">)
+				</dd>
+			</dl>
+		</li>
+-->

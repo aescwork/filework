@@ -1,0 +1,22 @@
+filework package
+================
+
+Submodules
+----------
+
+filework.filework module
+------------------------
+
+.. automodule:: filework.filework
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: filework
+    :members:
+    :undoc-members:
+    :show-inheritance:

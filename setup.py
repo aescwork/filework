@@ -18,36 +18,27 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='filework',
-    version='1.1.0',
-    description='A simple class to make working with files easier.',
+    version='1.1.1',
+    description='A simple wrapper class for easy reading from/iterating through, writing, and appending to files.',
     long_description=long_description,
     url='https://github.com/aescwork/filework',
-    author='Vollund Leysing',
+    author='aescwork',
     author_email='aescwork@protonmail.com',
     license='MIT',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
-        'Topic :: Software Development :: Build Tools',
+        'Topic :: Software Development',
+		'Topic :: System :: Filesystems',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
-    keywords='filework setuptools development',
+    keywords='filework development files file read write delete append',
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
-    install_requires=['peppercorn'],
-    extras_require={
-        'dev': ['check-manifest'],
-        'test': ['coverage'],
-    },
     package_data={
         'filework': ['package_data.dat'],
     },
-    data_files=[('my_data', ['data/data_file'])],
     entry_points={
         'console_scripts': [
             'filework=filework:main',

@@ -4,7 +4,7 @@
 	:platform: Linux, Unix, Windows
 	:synopsis: A simple wrapper class for easy reading (iterating) from, writing, and appending to files.
 
-.. moduleauthor:: Vollund Leysing aescwork@protonmail.com
+.. moduleauthor:: aescwork aescwork@protonmail.com
 
 
 """
@@ -22,8 +22,8 @@ class FileWork(object):
 			file_path: The name and optionally the path to the file.
 		"""
 
-		self.result = "NONE"
-		self.status = "NONE"
+		self.result = "None"
+		self.status = ""
 		self.fd = None
 		self._file_path = file_path		# This member is private because this class uses a property to get and set it.
 		self.action = ""
@@ -60,6 +60,7 @@ class FileWork(object):
 			val (str):	the path to the file for the object.
 		"""
 		
+		
 		try:
 			self._file_path = val
 			self.close_file()
@@ -67,7 +68,7 @@ class FileWork(object):
 			self._set_result_and_status("OK", "set new file_path")
 		except Exception as e:
 			self._set_result_and_status("FAIL", "In FileWork, file_path setter: ", str(e))
-			
+		
 
 	def close_file(self):
 		"""
@@ -80,7 +81,7 @@ class FileWork(object):
 			self.fd = None
 
 
-	def delete_file(self):
+	def delete_file(self, path=None):
 		"""
 		Delete the file whose path is assigned to the _file_path member.
 
@@ -91,15 +92,19 @@ class FileWork(object):
 				none
 		"""
 		
-		try:
+		if path:
+			p = path
+		else:
+			p = self._file_path
 			self.close_file()
-			os.remove(self._file_path)
+		try:
+			os.remove(p)
 			self._set_result_and_status("OK", "") 
 		except Exception as e:
-			self._set_result_and_status("FAIL", "In FileWork, delete_file: ", str(e)) 
+			self._set_result_and_status("FAIL", "In FileWork, delete_file: " + str(e)) 
 
 
-	def write_to_file(self, content):
+	def write_to_file(self, content, close=True):
 		"""
 		This method will write all of 'content' to the file.  The file is opened with the "w" mode: therefore if the file does not exist
 		it will attempt to create it.  If the file exists already anything in the file will be deleted.  If content is None and the file does
@@ -111,25 +116,33 @@ class FileWork(object):
 			content (str), (list), (NoneType):	
 											The matter to be written to the file or a value of None which will only result in the file being
 											created if it does not exist.
-
+			close (bool):					
+											Close the file after the function's code is finished.  
 		
 		"""
 
 		self._to_file("w", "write_to_file", content)
+		if close:
+			self.close_file()
 
 
-
-	def append_to_file(self, content):
+	def append_to_file(self, content, close=False):
 		"""
 		Append to a file. 
 
 		Calls self._to_file to do the actual work.
 
 		Args:
-				content (str), (list):	the matter to append to the file.
+				content (str), (list):
+										the matter to append to the file.
+				close (bool):				
+										Close the file when the method is finished executing.  (The default is False assuming that one may wish
+										to call this method repeatedly.)
 		"""
 		
 		self._to_file("a", "append_to_file", content)
+		if close:
+			self.close_file()
 
 
 
@@ -259,8 +272,6 @@ class FileWork(object):
 			except Exception as e:
 				msg = "In Filework " + f_name + "(): " + str(e)
 				self._set_result_and_status("FAIL", msg)
-			finally:
-				self.close_file()
 
 
 	def _set_result_and_status(self, result, status):

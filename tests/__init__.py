@@ -11,11 +11,11 @@ class InstantiationTest(unittest.TestCase):
 
 
 	def testMemberResult(self):
-		self.assertEqual(self.fwk.result, "NONE")
+		self.assertEqual(self.fwk.result, "None")
 			
 
 	def testMemberStatus(self):
-		self.assertEqual(self.fwk.status, "NONE")
+		self.assertEqual(self.fwk.status, "")
 
 	
 	def tearDown(self):

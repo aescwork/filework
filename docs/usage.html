@@ -79,40 +79,47 @@
 		</li>
 		<br/>
 		<li><p>Write To a File:</p>
+			<dl><span style="font-style: italic">Takes two Arguments, <code class="descname">(1)</code>
+				the material to write to the file, and <code class="descname">(2)</code> a boolean value to control whether the 
+				object closes the file upon completing execution of the method's code.</span></dl>
 			<dl><span style="font-style: italic">Pass in either a string ...</span></dl>
 			<dl>
 				<dd style="margin-left: 10%">
 					<code class="descname">fw.write_to_file</code> <span class="sig-paren">(</span>
-						<em>"The tenth is Glitnir;\nits pillars are gold\nAnd its roof with silver is set;"</em><span class="sig-paren">)
+						<em>"The tenth is Glitnir;\nits pillars are gold\nAnd its roof with silver is set;", close=True</em><span class="sig-paren">)
 				</dd>
 			</dl>
 			<dl><span style="font-style: italic"> or a list.<span></dl>
 				<dd style="margin-left: 10%">
 					<code class="descname">fw.write_to_file</code><span class="sig-paren">(</span>
-						<em>["The tenth is Glitnir;", "its pillars are gold", "And its roof with silver is set;"]</code></em>
+						<em>["The tenth is Glitnir;", "its pillars are gold", "And its roof with silver is set;"], close=True</code></em>
 					<span class="sig-paren">)
 				</dd>
 			</dl>
-			</dl>
+			<dl><span style="font-style: italic">The default for the second argument is True. </span></dl>
 		</li>
 		<br/>
 		<li><p>Append To A File:</p>
+			<dl><span style="font-style: italic">Takes two Arguments, <code class="descname">(1)</code> the material to write to the file,
+				 and <code class="descname">(2)</code> a boolean value to control whether the 
+				object closes the file upon completing execution of the method's code.</span></dl>
 			<dl><span style="font-style: italic">Pass in either a string ...</span></dl>
 			<dl> 
 				<dd style="margin-left: 10%">
 					<code class="descname">fw.append_to_file</code><span class="sig-paren">(</span>
-						<em>"The tenth is Glitnir;\nits pillars are gold\nAnd its roof with silver is set;"</em><span class="sig-paren">)
-					<span class="sig-paren">)
+						<em>"The tenth is Glitnir;\nits pillars are gold\nAnd its roof with silver is set;", close=False</em><span class="sig-paren">)
+					
 				</dd>
 			</dl>
-			<dl><span style="font-style: italic"> or a list.<span></dl>
+			<dl><span style="font-style: italic"> or a list.<span> </dl>
 			<dl>
 				<dd style="margin-left: 10%">
 					<code class="descname">fw.append_to_file</code><span class="sig-paren">(</span>
-						<em>["The tenth is Glitnir;", "its pillars are gold", "And its roof with silver is set;"]</code></em>
+						<em>["The tenth is Glitnir;", "its pillars are gold", "And its roof with silver is set;"], close=False</code></em>
 					<span class="sig-paren">)
 				</dd>
 			</dl>
+			<dl><span style="font-style: italic">The default for the second argument is False. </span></dl>
 		</li>
 		<br/>
 		<li><p>Iterate Through a File:</p>

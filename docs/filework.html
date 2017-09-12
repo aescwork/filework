@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>filework package &mdash; filework  documentation</title>
+    <title>filework package &mdash; filework 1.0 Stable documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '',
+        VERSION:     '1.0 Stable',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="filework  documentation" href="index.html" />
+    <link rel="top" title="filework 1.0 Stable documentation" href="index.html" />
     <link rel="prev" title="Welcome to filework’s documentation!" href="index.html" /> 
   </head>
   <body role="document">
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="index.html" title="Welcome to filework’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">filework  documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">filework 1.0 Stable documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -64,12 +64,19 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <dl class="method">
 <dt id="filework.FileWork.append_to_file">
-<code class="descname">append_to_file</code><span class="sig-paren">(</span><em>content</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filework.html#FileWork.append_to_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filework.FileWork.append_to_file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">append_to_file</code><span class="sig-paren">(</span><em>content</em>, <em>close=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filework.html#FileWork.append_to_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filework.FileWork.append_to_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Append to a file.</p>
 <p>Calls self._to_file to do the actual work.</p>
 <dl class="docutils">
 <dt>Args:</dt>
-<dd>content (str), (list):  the matter to append to the file.</dd>
+<dd><dl class="first last docutils">
+<dt>content (str), (list):</dt>
+<dd>the matter to append to the file.</dd>
+<dt>close (bool):                           </dt>
+<dd>Close the file when the method is finished executing.  (The default is False assuming that one may wish
+to call this method repeatedly.)</dd>
+</dl>
+</dd>
 </dl>
 </dd></dl>
 
@@ -82,7 +89,7 @@ if the value of self._file_path is changed.</p>
 
 <dl class="method">
 <dt id="filework.FileWork.delete_file">
-<code class="descname">delete_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/filework.html#FileWork.delete_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filework.FileWork.delete_file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_file</code><span class="sig-paren">(</span><em>path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filework.html#FileWork.delete_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filework.FileWork.delete_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete the file whose path is assigned to the _file_path member.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -134,7 +141,7 @@ next(filework_object.fd) but outputs helpful messages (see Returns below) and ha
 
 <dl class="method">
 <dt id="filework.FileWork.write_to_file">
-<code class="descname">write_to_file</code><span class="sig-paren">(</span><em>content</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filework.html#FileWork.write_to_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filework.FileWork.write_to_file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">write_to_file</code><span class="sig-paren">(</span><em>content</em>, <em>close=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filework.html#FileWork.write_to_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filework.FileWork.write_to_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method will write all of &#8216;content&#8217; to the file.  The file is opened with the &#8220;w&#8221; mode: therefore if the file does not exist
 it will attempt to create it.  If the file exists already anything in the file will be deleted.  If content is None and the file does
 not exist, the only action will be that the file is created.</p>
@@ -145,6 +152,8 @@ not exist, the only action will be that the file is created.</p>
 <dt>content (str), (list), (NoneType):      </dt>
 <dd>The matter to be written to the file or a value of None which will only result in the file being
 created if it does not exist.</dd>
+<dt>close (bool):                                   </dt>
+<dd>Close the file after the function&#8217;s code is finished.</dd>
 </dl>
 </dd>
 </dl>
@@ -210,11 +219,11 @@ created if it does not exist.</dd>
         <li class="right" >
           <a href="index.html" title="Welcome to filework’s documentation!"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">filework  documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">filework 1.0 Stable documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2017, Vollund Leysing.
+        &copy; Copyright 2017, aescwork.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>

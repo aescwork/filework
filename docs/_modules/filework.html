@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>filework &mdash; filework  documentation</title>
+    <title>filework &mdash; filework 1.0 Stable documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '',
+        VERSION:     '1.0 Stable',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="filework  documentation" href="../index.html" />
+    <link rel="top" title="filework 1.0 Stable documentation" href="../index.html" />
     <link rel="up" title="Module code" href="index.html" /> 
   </head>
   <body role="document">
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">filework  documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">filework 1.0 Stable documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -71,8 +71,8 @@
 <span class="sd">			file_path: The name and optionally the path to the file.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 
-		<span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;NONE&quot;</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;NONE&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;None&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">fd</span> <span class="o">=</span> <span class="bp">None</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">_file_path</span> <span class="o">=</span> <span class="n">file_path</span>		<span class="c1"># This member is private because this class uses a property to get and set it.</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -109,6 +109,7 @@
 <span class="sd">			val (str):	the path to the file for the object.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		
+		
 		<span class="k">try</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">_file_path</span> <span class="o">=</span> <span class="n">val</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">close_file</span><span class="p">()</span>
@@ -116,7 +117,7 @@
 			<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;OK&quot;</span><span class="p">,</span> <span class="s2">&quot;set new file_path&quot;</span><span class="p">)</span>
 		<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;FAIL&quot;</span><span class="p">,</span> <span class="s2">&quot;In FileWork, file_path setter: &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
-			
+		
 
 <div class="viewcode-block" id="FileWork.close_file"><a class="viewcode-back" href="../filework.html#filework.FileWork.close_file">[docs]</a>	<span class="k">def</span> <span class="nf">close_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
@@ -129,7 +130,7 @@
 			<span class="bp">self</span><span class="o">.</span><span class="n">fd</span> <span class="o">=</span> <span class="bp">None</span></div>
 
 
-<div class="viewcode-block" id="FileWork.delete_file"><a class="viewcode-back" href="../filework.html#filework.FileWork.delete_file">[docs]</a>	<span class="k">def</span> <span class="nf">delete_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="FileWork.delete_file"><a class="viewcode-back" href="../filework.html#filework.FileWork.delete_file">[docs]</a>	<span class="k">def</span> <span class="nf">delete_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		Delete the file whose path is assigned to the _file_path member.</span>
 
@@ -140,15 +141,19 @@
 <span class="sd">				none</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		
-		<span class="k">try</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">path</span><span class="p">:</span>
+			<span class="n">p</span> <span class="o">=</span> <span class="n">path</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file_path</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">close_file</span><span class="p">()</span>
-			<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file_path</span><span class="p">)</span>
+		<span class="k">try</span><span class="p">:</span>
+			<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;OK&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> 
 		<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;FAIL&quot;</span><span class="p">,</span> <span class="s2">&quot;In FileWork, delete_file: &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> </div>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;FAIL&quot;</span><span class="p">,</span> <span class="s2">&quot;In FileWork, delete_file: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> </div>
 
 
-<div class="viewcode-block" id="FileWork.write_to_file"><a class="viewcode-back" href="../filework.html#filework.FileWork.write_to_file">[docs]</a>	<span class="k">def</span> <span class="nf">write_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+<div class="viewcode-block" id="FileWork.write_to_file"><a class="viewcode-back" href="../filework.html#filework.FileWork.write_to_file">[docs]</a>	<span class="k">def</span> <span class="nf">write_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">close</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		This method will write all of &#39;content&#39; to the file.  The file is opened with the &quot;w&quot; mode: therefore if the file does not exist</span>
 <span class="sd">		it will attempt to create it.  If the file exists already anything in the file will be deleted.  If content is None and the file does</span>
@@ -160,25 +165,33 @@
 <span class="sd">			content (str), (list), (NoneType):	</span>
 <span class="sd">											The matter to be written to the file or a value of None which will only result in the file being</span>
 <span class="sd">											created if it does not exist.</span>
-
+<span class="sd">			close (bool):					</span>
+<span class="sd">											Close the file after the function&#39;s code is finished.  </span>
 <span class="sd">		</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 
-		<span class="bp">self</span><span class="o">.</span><span class="n">_to_file</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;write_to_file&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span></div>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_to_file</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;write_to_file&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">close</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">close_file</span><span class="p">()</span></div>
 
 
-
-<div class="viewcode-block" id="FileWork.append_to_file"><a class="viewcode-back" href="../filework.html#filework.FileWork.append_to_file">[docs]</a>	<span class="k">def</span> <span class="nf">append_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+<div class="viewcode-block" id="FileWork.append_to_file"><a class="viewcode-back" href="../filework.html#filework.FileWork.append_to_file">[docs]</a>	<span class="k">def</span> <span class="nf">append_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">close</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		Append to a file. </span>
 
 <span class="sd">		Calls self._to_file to do the actual work.</span>
 
 <span class="sd">		Args:</span>
-<span class="sd">				content (str), (list):	the matter to append to the file.</span>
+<span class="sd">				content (str), (list):</span>
+<span class="sd">										the matter to append to the file.</span>
+<span class="sd">				close (bool):				</span>
+<span class="sd">										Close the file when the method is finished executing.  (The default is False assuming that one may wish</span>
+<span class="sd">										to call this method repeatedly.)</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		
-		<span class="bp">self</span><span class="o">.</span><span class="n">_to_file</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;append_to_file&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span></div>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_to_file</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;append_to_file&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">close</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">close_file</span><span class="p">()</span></div>
 
 
 
@@ -308,8 +321,6 @@
 			<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 				<span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;In Filework &quot;</span> <span class="o">+</span> <span class="n">f_name</span> <span class="o">+</span> <span class="s2">&quot;(): &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 				<span class="bp">self</span><span class="o">.</span><span class="n">_set_result_and_status</span><span class="p">(</span><span class="s2">&quot;FAIL&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-			<span class="k">finally</span><span class="p">:</span>
-				<span class="bp">self</span><span class="o">.</span><span class="n">close_file</span><span class="p">()</span>
 
 
 	<span class="k">def</span> <span class="nf">_set_result_and_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
@@ -356,12 +367,12 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">filework  documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">filework 1.0 Stable documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2017, Vollund Leysing.
+        &copy; Copyright 2017, aescwork.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>

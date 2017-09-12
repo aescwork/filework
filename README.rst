@@ -20,3 +20,32 @@ file (docs/html/usage.html) which provides a simple and hopefully helpful explan
 to call them.
 
 This module was originally created for the waxtablet application.  
+
+After installation of this package is complete, trying to use the module might result in the following error: "ImportError: No module named filework"
+or some other error message.
+
+This probably indicates that the Python interpreter may not be able to locate the module.  In this case,
+the following is recommended:
+
+	On Linux:
+
+		Locate where the package was installed.  In the terminal, navigate to the root directory and execute the following command:
+
+												sudo find . -name filework.py
+
+
+		This should give a path to the filework.py file.  
+		Create a file called "local_python.sh" and put the following text in it:
+
+								PYTHONPATH="/usr/local/lib/python*.*/dist-packages/filework/":"${PYTHONPATH}"
+								export PYTHONPATH
+
+		To make the module available to all users, place this file in /etc/profile.d.  Then place a line to execute this
+		file somewhere in .bashrc or one of the other bash configuration files in the individual (non-root) user's terminal: 
+
+										    . /etc/profile.d/local_python.sh
+
+		This should cause the python interpreter to locate the filework.py file in the module.   
+
+
+

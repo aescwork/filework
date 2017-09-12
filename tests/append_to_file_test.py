@@ -19,8 +19,9 @@ class AppendToFileTest(unittest.TestCase):
 
 		self.f = fw.FileWork(path_to_append_file)
 		self.f.write_to_file(self.matter_to_write)
-		self.f.append_to_file(self.matter_to_append)
-		self.result = self.f.result
+		self.f.append_to_file(self.matter_to_append, True)	# method call: pass True to make sure file closes after the operation so the file can be read
+															# properly for the test.
+		self.result = self.f.result							
 
 		self.fd = open(path_to_append_file, "r")
 		self.write_file_content = self.fd.read()

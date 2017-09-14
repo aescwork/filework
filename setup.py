@@ -18,7 +18,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='filework',
-    version='1.1.1',
+    version='1.1.2',
     description='A simple wrapper class for easy reading from/iterating through, writing, and appending to files.',
     long_description=long_description,
     url='https://github.com/aescwork/filework',
